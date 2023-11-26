@@ -1,1 +1,6 @@
 transformers
+flask
+python-dotenv
+marshmallow
+gunicorn
+Flask-Smorest
