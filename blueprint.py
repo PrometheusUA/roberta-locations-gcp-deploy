@@ -25,7 +25,7 @@ class NERPredict(MethodView):
     @blp.alt_response(400, description="Something went wrong")
     def post(self, texts):
         try:
-            return self.predictor.predict(texts)
+            return {"locations": self.predictor.predict(texts['texts'])}
         except Exception as e:
             abort(400, message=str(e))
 
