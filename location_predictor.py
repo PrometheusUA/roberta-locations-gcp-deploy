@@ -16,12 +16,17 @@ class LocationPredictor:
         )
         self.thresh = thresh
 
-    def _final_string_cleaning(self, text:str) -> str:
+    @staticmethod
+    def _final_string_cleaning(text: str) -> str:
+        """
+        Delete some unneccessary separators.
+        """
         return text.replace('\xa0', ' ').replace('\n', ' ')
 
-    def _clean_text_sentences(self, text):
+    @staticmethod
+    def _clean_text_sentences(text: str) -> str:
         """
-        Delete sentences with channel name
+        Delete sentences with channel name.
         """ 
         
         lines = text.split('\n')
@@ -37,6 +42,7 @@ class LocationPredictor:
         
         return ' '.join(lines)
 
+    # TODO: refactor this one into many separate functions, maybe in the separate class
     def _predict_one(self, text: str) -> List[str]:
         """
         Process one specific text input.
@@ -80,7 +86,7 @@ class LocationPredictor:
                     # Searching for a street word right before ours 
                     while street_before:
                         if start - street_before.end() <= 2:
-                            res.append(self._final_string_cleaning(text[street_before.start():end]))
+                            res.append(LocationPredictor._final_string_cleaning(text[street_before.start():end]))
                             added = True
                             break
                         search_start += street_before.end()
@@ -90,7 +96,7 @@ class LocationPredictor:
                     # Searching for a city word right before ours 
                     while city_before:
                         if start - city_before.end() <= 2:
-                            res.append(self._final_string_cleaning(text[city_before.start():end]))
+                            res.append(LocationPredictor._final_string_cleaning(text[city_before.start():end]))
                             added = True
                             break
                         search_start += city_before.end()
@@ -98,7 +104,7 @@ class LocationPredictor:
                             
                 # If we have found nothing to prepend
                 if not added:
-                    res.append(self._final_string_cleaning(text[start:end]))
+                    res.append(LocationPredictor._final_string_cleaning(text[start:end]))
                 
         return res
 
@@ -111,5 +117,5 @@ class LocationPredictor:
         Returns:
             List[List[str]]: list of lists of locations.
         """
-        cleaned_texts = [self._clean_text_sentences(text) for text in texts]
+        cleaned_texts = [LocationPredictor._clean_text_sentences(text) for text in texts]
         return [self._predict_one(text) for text in cleaned_texts]
