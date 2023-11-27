@@ -18,7 +18,7 @@ DEVICE=cpu
 
 You can use `curl` locally:
 ```bash
-    curl -i -X POST -H "Content-Type: application/json" -d "{\"instances\":[\"Доброго вечора, ми з України\", \"У Києві мороз, трохи сніжить\"]}" http://localhost:5000/predict
+curl -i -X POST -H "Content-Type: application/json" -d "{\"instances\":[\"Доброго вечора, ми з України\", \"У Києві мороз, трохи сніжить\"]}" http://localhost:5000/predict
 ```
 
 ## Deployment
@@ -40,12 +40,12 @@ You can also use the endpoint by:
 2. Use the [sample Python file](https://github.com/googleapis/python-aiplatform/blob/main/samples/snippets/prediction_service/predict_custom_trained_model_sample.py) to get a method of obtaining the predictions.
 3. Execute the request like this:
 ```{python}
-    predict_custom_trained_model_sample(
-        project=YOUR_PROJECT_ID,
-        endpoint_id=YOUR_ENDPOINT_ID,
-        location=YOUR_REGION,
-        instances=texts
-    )
+predict_custom_trained_model_sample(
+    project=YOUR_PROJECT_ID,
+    endpoint_id=YOUR_ENDPOINT_ID,
+    location=YOUR_REGION,
+    instances=texts
+)
 ```
 
 The result should be like this:
