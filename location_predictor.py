@@ -1,7 +1,7 @@
 import re
 
 from typing import List
-from transformers import pipeline
+from optimum.pipelines import pipeline
 
 from consants import EMOJI_PATTERN, CITY_VILLAGE_PATTERN, STREET_PATTERN, DELIMETERS, PUNCTUATION, NAME_WORDS
 
@@ -12,7 +12,8 @@ class LocationPredictor:
 
     def __init__(self, chkp_path: str, device: str, thresh: float = 0.83):
         self.model = pipeline(
-            "token-classification", model=chkp_path, aggregation_strategy="simple", batch_size=32, device=device
+            "token-classification", model=chkp_path, aggregation_strategy="simple", batch_size=32, device=device,
+            accelerator="ort"
         )
         self.thresh = thresh
 

@@ -29,3 +29,9 @@ class NERPredict(MethodView):
         except Exception as e:
             abort(400, message=str(e))
 
+
+@blp.route('/health')
+class Healthcheck(MethodView):
+    @blp.response(200, description="The server is up")
+    def get(self):
+        return dict(status="healthy")

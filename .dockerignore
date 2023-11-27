@@ -1,4 +1,5 @@
-./checkpoints
+# ./checkpoints
 .vscode
-.env
+# .env
 __pycache__
+deployment.yaml
