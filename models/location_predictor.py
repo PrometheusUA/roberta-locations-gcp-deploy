@@ -1,6 +1,6 @@
 import re
 
-from typing import List
+from typing import List, Dict
 from optimum.pipelines import pipeline
 
 from models.consants import EMOJI_PATTERN, CITY_VILLAGE_PATTERN, STREET_PATTERN, DELIMETERS, PUNCTUATION, NAME_WORDS
@@ -44,18 +44,19 @@ class LocationPredictor:
         return ' '.join(lines)
 
     # TODO: refactor this one into many separate functions, maybe in the separate class
-    def _predict_one(self, text: str) -> List[str]:
+    def _postprocess_one(self, text:str, row_labels: List[Dict]) -> List[str]:
         """
         Process one specific text input.
 
         Args:
-            text (List[str]): input text.
+            text (str): input text.
+            row_labels (List[Dict]): the results of the model prediction.
         Returns:
             List[str]: list of locations.
         """
         res = []
     
-        row_labels = self.model(text)
+        # row_labels = self.model(text)
         for found_info in row_labels:
             if found_info['entity_group'] == 'LOC' and found_info['score'] > self.thresh:
                 # Deleting "столиц" where we don't need it
@@ -119,4 +120,5 @@ class LocationPredictor:
             List[List[str]]: list of lists of locations.
         """
         cleaned_texts = [LocationPredictor._clean_text_sentences(text) for text in texts]
-        return [self._predict_one(text) for text in cleaned_texts]
+        labels = self.model(cleaned_texts) # Actual prediction
+        return [self._postprocess_one(text, row_label) for text, row_label in zip(cleaned_texts, labels)]
