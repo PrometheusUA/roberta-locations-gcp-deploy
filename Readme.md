@@ -20,3 +20,24 @@ How to deploy to Google Cloud Vertex AI:
 - Authenticate using: `gcloud auth application-default login` and your browser login.
 - Send your model to the created Artifact Registry repository: `gcloud builds submit . --tag=YOUR-REGION-docker.pkg.dev/YOUR-PROJECT-ID/YOUR-REPOSITORY-NAME/nlp-ner-onnx-ua --machine-type='n1-highcpu-8' --timeout=900s --verbosity=info`
 - After processing finish, use `deployment.ipynb` to finish setting it up.
+
+*I wouldn't have deployed it without [this](https://medium.com/google-cloud/streamline-model-deployment-on-vertex-ai-using-onnx-65f29786d2d0) article.*
+
+You can also use the endpoint by:
+1. Set up Python Google Cloud Platform client, if you haven't done this before.
+2. Use the [sample Python file](https://github.com/googleapis/python-aiplatform/blob/main/samples/snippets/prediction_service/predict_custom_trained_model_sample.py) to get a method of obtaining the predictions.
+3. Execute the request like this:
+```{python}
+    predict_custom_trained_model_sample(
+        project=YOUR_PROJECT_ID,
+        endpoint_id=YOUR_ENDPOINT_ID,
+        location=YOUR_REGION,
+        instances=texts
+    )
+```
+
+The result should be like this:
+
+![Working model result](https://i.imgur.com/uZJpRJ8.png)
+
+I have also made an OpenAPI documentation, but it simply have no space to exist in the Google AI Platform. Probably, in this fassion it could also have been deployed on the Cloud Run to be much more accessible. At the same time, Google AI helps to monitor the model and to have it's checkpoints saved on the specific machine.
