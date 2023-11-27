@@ -1,5 +1,6 @@
 # Deployment task for UA locations extraction task
 
+## Run
 How to run it:
 - Fill the environment file in the way `sample.env` is filled:
 ```
@@ -13,6 +14,15 @@ DEVICE=cpu
 - Install all the required dependencies: `pip install -r requirements.txt`.
 - Start model by simply: `flask run`.
 
+### Check that everything works
+
+You can use `curl` locally:
+```bash
+    curl -i -X POST -H "Content-Type: application/json" -d "{\"instances\":[\"Доброго вечора, ми з України\", \"У Києві мороз, трохи сніжить\"]}" http://localhost:5000/predict
+```
+
+## Deployment
+
 How to deploy to Google Cloud Vertex AI:
 - Create a GCP project and allow Vertex AI usage there.
 - [Install the Google Cloud CLI](https://cloud.google.com/sdk/docs/install#windows).
@@ -22,6 +32,8 @@ How to deploy to Google Cloud Vertex AI:
 - After processing finish, use `deployment.ipynb` to finish setting it up.
 
 *I wouldn't have deployed it without [this](https://medium.com/google-cloud/streamline-model-deployment-on-vertex-ai-using-onnx-65f29786d2d0) article.*
+
+### Usage
 
 You can also use the endpoint by:
 1. Set up Python Google Cloud Platform client, if you haven't done this before.
@@ -40,4 +52,4 @@ The result should be like this:
 
 ![Working model result](https://i.imgur.com/uZJpRJ8.png)
 
-I have also made an OpenAPI documentation, but it simply have no space to exist in the Google AI Platform. Probably, in this fassion it could also have been deployed on the Cloud Run to be much more accessible. At the same time, Google AI helps to monitor the model and to have it's checkpoints saved on the specific machine.
+> Side note: I have also made an OpenAPI documentation, but it simply have no space to exist in the Google AI Platform. Probably, in this fassion it could also have been deployed on the Cloud Run to be much more accessible. At the same time, Google AI helps to monitor the model and to have it's checkpoints saved on the specific machine.
