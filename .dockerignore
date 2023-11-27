@@ -1,4 +1,4 @@
-# ./checkpoints
+/checkpoints
 .vscode
 # .env
 __pycache__

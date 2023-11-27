@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 from location_predictor import LocationPredictor
 
+DEFAULT_CHECKPOINT = 'PrometheusUA/roberta-distilled-quantized-ner-ua'
 
 blp = Blueprint("NER", "ner", description="UA NER locations prediction")
 
@@ -16,7 +17,7 @@ class NERPredict(MethodView):
         dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
         load_dotenv(dotenv_path)
 
-        self.predictor = LocationPredictor(os.environ.get("CHECKPOINT_PATH"), os.environ.get("DEVICE"))
+        self.predictor = LocationPredictor(os.environ.get("CHECKPOINT_PATH", DEFAULT_CHECKPOINT), os.environ.get("DEVICE", "cpu"))
 
     @blp.arguments(InputSchema)
     @blp.response(
@@ -25,7 +26,7 @@ class NERPredict(MethodView):
     @blp.alt_response(400, description="Something went wrong")
     def post(self, texts):
         try:
-            return {"locations": self.predictor.predict(texts['texts'])}
+            return {"predictions": self.predictor.predict(texts['instances'])}
         except Exception as e:
             abort(400, message=str(e))
 
