@@ -3,7 +3,7 @@ import re
 from typing import List
 from optimum.pipelines import pipeline
 
-from consants import EMOJI_PATTERN, CITY_VILLAGE_PATTERN, STREET_PATTERN, DELIMETERS, PUNCTUATION, NAME_WORDS
+from models.consants import EMOJI_PATTERN, CITY_VILLAGE_PATTERN, STREET_PATTERN, DELIMETERS, PUNCTUATION, NAME_WORDS
 
 class LocationPredictor:
     """

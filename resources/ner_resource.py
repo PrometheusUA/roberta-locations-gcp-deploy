@@ -2,10 +2,11 @@ import os
 
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from schemas import InputSchema, OutputSchema
 from dotenv import load_dotenv
 
-from location_predictor import LocationPredictor
+from schemas import InputSchema, OutputSchema
+from models.location_predictor import LocationPredictor
+
 
 DEFAULT_CHECKPOINT = 'PrometheusUA/roberta-distilled-quantized-ner-ua'
 

@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 from flask_smorest import Api
-from blueprint import blp as NERBlueprint
+from resources import NERBlueprint
 
 dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
 load_dotenv(dotenv_path)
